@@ -33,3 +33,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 setopt PROMPT_SUBST
 export PROMPT='%F{blue}%n@%m%f:%F{green}%1~%f$vcs_info_msg_0_ %# '
+
+# Add tty for github signatures
+GPG_TTY=$(tty)
+export GPG_TTY
