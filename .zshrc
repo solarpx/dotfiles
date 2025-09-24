@@ -1,15 +1,6 @@
 ZSH_DISABLE_COMPFIX="true"
 
-# add rust env
-. "$HOME/.cargo/env"
-
-# add brew to shell environment
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# loads nvm and bash_completion
-export NVM_DIR="$HOME/.nvm"
-
-# Colorize shell output
+# colorize shell output
 export CLICOLOR=1
 
 autoload -Uz compinit && compinit -i
@@ -36,12 +27,31 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 setopt PROMPT_SUBST
 export PROMPT='%F{blue}%n@%m%f:%F{green}%1~%f$vcs_info_msg_0_ %# '
 
-# Add tty for github signatures
+# add paths
+export PATH="${PATH}:${HOME}/.local/bin"
+export PATH="${PATH}:/usr/local/sbin"
+
+# add brew to shell environment
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="${PATH}:/opt/homebrew/opt/postgresql@15/bin:$PATH"
+
+# add tty for github signatures
 GPG_TTY=$(tty)
 export GPG_TTY
 
+# add rust env
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# LLVM loader 
+export LIBCLANG_PATH="/Library/Developer/CommandLineTools/usr/lib"
+export DYLD_LIBRARY_PATH="/Library/Developer/CommandLineTools/usr/lib:$DYLD_LIBRARY_PATH"
+
 # Solana
-export PATH="/Users/solarpx/.local/share/solana/install/active_release/bin:$PATH"
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Anchor
+export PATH="$HOME/.avm/bin:$PATH" # For zsh
 
 # Foundry
 . "$HOME/.cargo/env"
@@ -49,8 +59,8 @@ export PATH="$PATH:/Users/solarpx/.foundry/bin"
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # python
 eval "$(pyenv init -)"
@@ -60,6 +70,5 @@ if [ -f "$HOME/.anthropic/.env" ]; then
   export $(grep -v '^#' "$HOME/.anthropic/.env" | xargs)
 fi
 
-# path
-export PATH="${PATH}:${HOME}/.local/bin"
-export PATH="${PATH}:/usr/local/sbin"
+# AWS
+export AWS_SHARED_CREDENTIALS_FILE="/Volumes/SSD/.KEYSTORE/aws/config"
